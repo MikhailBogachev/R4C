@@ -6,3 +6,12 @@ class Robot(models.Model):
     model = models.CharField(max_length=2, blank=False, null=False)
     version = models.CharField(max_length=2, blank=False, null=False)
     created = models.DateTimeField(blank=False, null=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'serial': self.serial,
+            'model': self.model,
+            'version': self.version,
+            'created': self.created,
+        }
