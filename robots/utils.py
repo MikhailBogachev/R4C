@@ -10,7 +10,7 @@ def create_production_list(robots):
     for robot in robots:
         dict_robots[robot['model']] = dict_robots.get(robot['model'], []) + [robot]
 
-    workbook = xlsxwriter.Workbook('production_list/demo.xlsx')
+    workbook = xlsxwriter.Workbook('production_list/robots_list.xlsx')
     workbook.set_properties({'encoding': 'utf-8'})
     for model, list_models in dict_robots.items():
         worksheet = workbook.add_worksheet(name=model)
@@ -23,7 +23,7 @@ def create_production_list(robots):
             worksheet.write(ind+1, 2, robot['model_count'])
     workbook.close()
 
-    return os.path.join(settings.BASE_DIR, 'production_list/demo.xlsx')
+    return os.path.join(settings.BASE_DIR, 'production_list/robots_list.xlsx')
 
 
 def get_difference_datetime_from_today(days: int):
