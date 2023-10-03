@@ -1,8 +1,10 @@
+import os
+from datetime import timedelta
+
 import xlsxwriter
 from django.conf import settings
-from datetime import timedelta
 from django.utils import timezone
-import os
+from django.core.mail import send_mail
 
 
 def create_production_list(robots):
@@ -27,5 +29,20 @@ def create_production_list(robots):
 
 
 def get_difference_datetime_from_today(days: int):
-    some_day_last_week = timezone.now().date() - timedelta(days=7)
+    some_day_last_week = timezone.now().date() - timedelta(days=days)
     return some_day_last_week
+
+
+def notify_customers(emails, robot_model, robot_version):
+    send_mail(
+        subject='Робот в наличии!',
+        message=
+        f"""
+            Добрый день!
+            Недавно вы интересовались нашим роботом модели {robot_model}, версии {robot_version}.
+            Этот робот теперь в наличии. Если вам подходит этот вариант - пожалуйста, свяжитесь с нами
+        """,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=emails,
+        fail_silently=False
+    )

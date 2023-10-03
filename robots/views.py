@@ -7,9 +7,11 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 
+from orders.models import Order
+
 from .validators import validate_robot_data
 from .models import Robot
-from .utils import create_production_list, get_difference_datetime_from_today
+from .utils import create_production_list, get_difference_datetime_from_today, notify_customers
 
 
 @csrf_exempt
@@ -19,6 +21,10 @@ def create_robot(request):
     if validate_robot_data(data):
         data.update({'serial': f'{data["model"]}-{data["version"]}'})
         robot = Robot.objects.create(**data)
+        orders = Order.objects.filter(robot_serial=robot.serial, is_notified=False).select_related('customer').all()
+        customer_emails = [order.customer.email for order in orders]
+        notify_customers(emails=customer_emails, robot_model=robot.model, robot_version=robot.version)
+        orders.update(is_notified=True)
         return JsonResponse({'data': robot.to_dict()}, status=HTTPStatus.CREATED)
     return JsonResponse({'message': 'Не удалось сохранить данные'}, status=HTTPStatus.BAD_REQUEST)
 
