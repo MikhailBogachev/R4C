@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 def create_production_list(robots):
     dict_robots = {}
     for robot in robots:
-        dict_robots[robot['model']] = dict_robots.get(robot['model'], []) + [robot]
+        dict_robots[robot['model__name']] = dict_robots.get(robot['model__name'], []) + [robot]
 
     workbook = xlsxwriter.Workbook('production_list/robots_list.xlsx')
     workbook.set_properties({'encoding': 'utf-8'})
@@ -20,9 +20,9 @@ def create_production_list(robots):
         worksheet.write(0, 1, 'Версия')
         worksheet.write(0, 2, 'Количество за неделю')
         for ind, robot in enumerate(list_models):
-            worksheet.write(ind+1, 0, robot['model'])
-            worksheet.write(ind+1, 1, robot['version'])
-            worksheet.write(ind+1, 2, robot['model_count'])
+            worksheet.write(ind+1, 0, robot['model__name'])
+            worksheet.write(ind+1, 1, robot['version__name'])
+            worksheet.write(ind+1, 2, robot['robot_count'])
     workbook.close()
 
     return os.path.join(settings.BASE_DIR, 'production_list/robots_list.xlsx')
