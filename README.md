@@ -15,7 +15,7 @@ cd R4C
 
 3. Cоздать и активировать виртуальное окружение:
 ```
-python3 -m venv env
+python -m venv env
 ```
 
 ```
@@ -24,7 +24,7 @@ source env/Scripts/activate
 4. Установить зависимости из файла requirements.txt:
 
 ```
-python3 -m pip install --upgrade pip
+python -m pip install --upgrade pip
 ```
 
 ```
@@ -46,13 +46,13 @@ python3 manage.py migrate
 
 7. Создать суперпользователя
 ```
-python3 manage.py createsuperuser
+python manage.py createsuperuser
 ```
 
 8. Запустить проект:
 
 ```
-python3 manage.py runserver
+python manage.py runserver
 ```
 
 9. Добавить модели и версии.
