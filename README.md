@@ -30,25 +30,32 @@ python3 -m pip install --upgrade pip
 ```
 pip install -r requirements.txt
 ```
-
-5. Выполнить миграции:
+5. Для работы рассылки уведомлений покупателям, необходимо в корне проекта создать файл .env
+c настройками для smtp сервера, следующего вида:
+```
+HOST_USER=
+HOST_PASSWORD=
+EMAIL_HOST=
+EMAIL_PORT=
+```
+6. Выполнить миграции:
 
 ```
 python3 manage.py migrate
 ```
 
-6. Создать суперпользователя
+7. Создать суперпользователя
 ```
 python3 manage.py createsuperuser
 ```
 
-7. Запустить проект:
+8. Запустить проект:
 
 ```
 python3 manage.py runserver
 ```
 
-8. Добавить модели и версии.
+9. Добавить модели и версии.
 ```
 http://127.0.0.1:8000/admin/
 ```
