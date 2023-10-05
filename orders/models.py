@@ -4,9 +4,22 @@ from customers.models import Customer
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
-    robot_serial = models.CharField(max_length=5,blank=False, null=False)
-    is_notified = models.BooleanField(default=False)
+    """Модель представления заказа на робота"""
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        verbose_name='Покупатель'
+    )
+    robot_serial = models.CharField(
+        max_length=5,
+        blank=False,
+        null=False,
+        verbose_name='Серийный номер робота'
+    )
+    is_notified = models.BooleanField(
+        default=False,
+        verbose_name='Уведомление выслано'
+    )
 
     def to_dict(self):
         return {

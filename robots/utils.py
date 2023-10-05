@@ -1,16 +1,23 @@
 import os
-from datetime import timedelta
+from datetime import timedelta, date
 
 import xlsxwriter
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
+from django.db.models.query import QuerySet
 
 
-def create_production_list(robots):
+def create_production_list(robots: QuerySet) -> str:
+    """
+    Функция для создания xlsx файла со сводной
+    информацией о произведенных роботах.
+    """
     dict_robots = {}
     for robot in robots:
-        dict_robots[robot['model__name']] = dict_robots.get(robot['model__name'], []) + [robot]
+        dict_robots[robot['model__name']] = dict_robots.get(
+            robot['model__name'], []
+        ) + [robot]
 
     workbook = xlsxwriter.Workbook('production_list/robots_list.xlsx')
     workbook.set_properties({'encoding': 'utf-8'})
@@ -28,20 +35,33 @@ def create_production_list(robots):
     return os.path.join(settings.BASE_DIR, 'production_list/robots_list.xlsx')
 
 
-def get_difference_datetime_from_today(days: int):
-    some_day_last_week = timezone.now().date() - timedelta(days=days)
-    return some_day_last_week
+def get_difference_datetime_from_today(days: int) -> date:
+    """Функция для получения даты <days> дней назад."""
+    start_date = timezone.now().date() - timedelta(days=days)
+    return start_date
 
 
-def notify_customers(emails, robot_model, robot_version):
+def notify_customers(
+        emails: list[str], robot_model: str, robot_version: str
+) -> None:
+    """
+    Функция для отправки email списку получателей.
+
+    Должны быть определены переменные в файле settings.py:
+    - EMAIL_HOST
+    - EMAIL_PORT
+    - EMAIL_USE_SSL
+    - EMAIL_HOST_USER
+    - EMAIL_HOST_PASSWORD
+    """
+    message = f"""
+    Добрый день!
+    Недавно вы интересовались нашим роботом модели {robot_model}, версии {robot_version}.
+    Этот робот теперь в наличии. Если вам подходит этот вариант - пожалуйста, свяжитесь с нами
+    """
     send_mail(
         subject='Робот в наличии!',
-        message=
-        f"""
-            Добрый день!
-            Недавно вы интересовались нашим роботом модели {robot_model}, версии {robot_version}.
-            Этот робот теперь в наличии. Если вам подходит этот вариант - пожалуйста, свяжитесь с нами
-        """,
+        message=message,
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=emails,
         fail_silently=False
