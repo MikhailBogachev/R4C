@@ -1,5 +1,57 @@
 # R4C - Robots for consumers
 
+## Запуск сервиса
+Необходимо использовать python 3.10 
+1. Клонировать репозиторий:
+```
+git clone https://github.com/MikhailBogachev/R4C.git
+```
+
+2. Gерейти в него в командной строке:
+```
+cd R4C
+```
+
+3. Cоздать и активировать виртуальное окружение:
+```
+python3 -m venv env
+```
+
+```
+source env/bin/activate
+```
+4. Установить зависимости из файла requirements.txt:
+
+```
+python3 -m pip install --upgrade pip
+```
+
+```
+pip install -r requirements.txt
+```
+
+5. Выполнить миграции:
+
+```
+python3 manage.py migrate
+```
+
+6. Создать суперпользователя
+```
+python3 manage.py createsuperuser
+```
+
+7. Запустить проект:
+
+```
+python3 manage.py runserver
+```
+
+8. Добавить модели и версии.
+```
+http://127.0.0.1:8000/admin/
+```
+
 ## Небольшая предыстория.
 Давным-давно, в далёкой-далёкой галактике, была компания производящая различных 
 роботов. 
