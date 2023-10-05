@@ -1,4 +1,5 @@
 # R4C - Robots for consumers
+Пояснения к решению https://github.com/MikhailBogachev/R4C/blob/master/solution.md
 
 ## Запуск сервиса
 Необходимо использовать python 3.10 
