@@ -41,7 +41,7 @@ EMAIL_PORT=
 6. Выполнить миграции:
 
 ```
-python3 manage.py migrate
+python manage.py migrate
 ```
 
 7. Создать суперпользователя
